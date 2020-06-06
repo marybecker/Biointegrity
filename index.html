@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Biointegrity Map</title>
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/slate/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container-fluid">
+    <header class="row bg-dark text-white py-3">
+        <div class="col">
+            <h1>Biological Integrity in Connecticut Rivers 1987 - 2017</h1>
+            <h2>Clean Water Act implementation progress and need for continuing success</h2>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary h4" data-toggle="modal" data-target="#Modal">
+            About
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabel">BCG Assessments</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/1051-0761%282006%29016%5B1251%3ATBCGAD%5D2.0.CO%3B2">
+                            The Biological Condition Gradient (BCG)</a> is a conceptual model that describes changes
+                            in aquatic communities and provides a more refined way of assigning stream health than the
+                            traditional pass/fail approach. Over the past 10 years, CT DEEP has developed BCG models for
+                            fish communities and macroinvertebrate communities and, starting in 2018, incorporated these
+                            concepts into water quality assessments for the Integrated Water Quality Report.</p>
+                        <p>The BCG provides more information about the condition of streams than our previous assessment
+                            methodology. Historical stream health assessments relied on a pass/fail scale
+                            whereas the current methodology applies a gradient approach using the BCG indices.
+                            The additional fine tuning allows us to identify minimally stressed healthy streams
+                            (e.g. BCG tiers 1 and 2). Rather than waiting for these streams to degrade to the point of
+                            becoming impaired, CT DEEP is now taking steps to protect these healthy watersheds.</p>
+                        <p><a href="https://portal.ct.gov/DEEP/Water/Water-Quality/Water-Quality-305b-Report-to-Congress">
+                            Integrated water quality report</a>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="row">
+        <div class="col-md-12 col-lg-12 col-xl-12 order-md-2 px-0">
+            <div id="map"></div>
+
+            <div id="slider">
+                <input id="timeslide" type="range" min="1" max="6" value="1" step="1"/><br>
+                <span id="range">Time Slider</span>
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <footer class="row bg-dark text-white py-3">
+        <div class="col">
+            <ul class="list-unstyled">
+                <li>map authored by <a href="https://github.com/marybecker">Mary Becker</a> </li>
+                <li>data source: <a href="https://github.com/ctdeepwatermonitoring/BCGMap"> CT DEEP WATER MONITORING</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS, then leaflet, then simple statistics then your JS! -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v5.js"></script>
+<script src="https://unpkg.com/topojson@3"></script>
+<script src="js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+/*h1 {*/
+    /*font-family: 'Noto Serif TC', serif;*/
+    /*font-weight: 800;*/
+/*}*/
+
+/*h2 {*/
+    /*font-family: 'Noto Serif TC', serif;*/
+    /*font-weight: 400;*/
+/*}*/
+
+p {
+    line-height: 1.7rem;
+}
+
+a {
+    color: aqua;
+}
+
+/*li {
+    font-family: 'Noto Serif TC', serif;
+}*/
+
+#map {
+    height: 80vh;
+    background: #20282e;
+}
+
+.town {
+    fill: #dddddd;
+    stroke: whitesmoke;
+    stroke-width: .7;
+}
+
+.riverPoly {
+    fill: #66FCF1;
+    stroke: #66FCF1;
+    stroke-width: .7;
+    opacity: 0.8;
+}
+
+.riverLine {
+    /*fill: #01a6ff;*/
+    stroke: #01a6ff;
+    stroke-width: .7;
+    fill-opacity:0;
+}
+
+.tolTaxa {
+    stroke: #34394b;
+    stroke-width: 2;
+    opacity: 1;
+    fill-opacity: 0;
+}
+
+.modTaxa {
+    stroke: #f9711d;
+    stroke-width: 2;
+    opacity: 1;
+    fill-opacity: 0;
+}
+
+.legend circle {
+    fill: none;
+    stroke: #ccc;
+}
+
+.legend text {
+    fill: #777;
+    font: 10px sans-serif;
+    text-anchor: middle;
+}
+
+#slider {
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+    aside {
+        height: 80vh;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}
