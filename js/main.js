@@ -2,11 +2,12 @@
 const townsJson = d3.json('data/CTTowns.json');
 const waterLineJson = d3.json('data/StateWaterbodyLine.json');
 const waterPolyJson = d3.json('data/StateWaterbodyPoly.json');
-const bcg5CSV = d3.csv('data/BCG5_Tier4And5_OverTime.csv');
-const bcg2CSV = d3.csv('data/BCG2_Tier2And4_OverTime.csv');
+const bcgCSV = d3.csv('data/BCG_OverTime.csv');
+// const bcg5CSV = d3.csv('data/BCG5_Tier4And5_OverTime.csv');
+// const bcg2CSV = d3.csv('data/BCG2_Tier2And4_OverTime.csv');
 
 // use promise to call all data files, then send data to callback
-Promise.all([townsJson, waterPolyJson, waterLineJson, bcg5CSV, bcg2CSV])
+Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
     .then(drawMap)
     .catch(error => {
         console.log(error)
@@ -21,8 +22,9 @@ function drawMap(data) {
     const townsData = data[0];
     const waterPolyData = data[1];
     const waterLineData = data[2];
-    const bcg5Data = data[3];
-    const bcg2Data = data[4];
+    const bcgData = data[3];
+    // const bcg5Data = data[3];
+    // const bcg2Data = data[4];
 
     // select the HTML element that will hold the map
     var mapContainer = d3.select('#map');
@@ -89,67 +91,129 @@ function drawMap(data) {
         .attr('class', 'riverLine');
 
     // define radius generator
-    const radius = d3.scaleLinear().domain([0, 1]).range([0, 20]);
+    const radius = d3.scaleLinear().domain([0, 1]).range([0, 30]);
     console.log(radius(1));
 
-    updateCircles(1,bcg5Data,svg,projection,radius);
+    let Yr = d3.select("#timeslide").node().value;
+    console.log(Yr);
+    let bcg = d3.selectAll('input[name="BCG"]:checked').node().value;
+    console.log(bcg);
+    updateCircles(Yr,bcgData,bcg,svg,projection,radius);
 
     d3.select("#timeslide").on("input", function() {
         let Yr = this.value;
-        console.log(Yr);
-        updateCircles(Yr,bcg5Data,svg,projection,radius)
+        let bcg = d3.selectAll('input[name="BCG"]:checked').node().value;
+        updateCircles(Yr, bcgData, bcg, svg, projection, radius)
+
+    });
+
+    d3.selectAll('input[name="BCG"]').on('change',function() {
+        let Yr = d3.select("#timeslide").node().value;
+        let bcg = this.value;
+        updateCircles(Yr, bcgData, bcg, svg, projection, radius)
+
     });
 
     drawLegend(svg, width, height, radius);
-    updateCircles(1,bcg5Data,svg,projection,radius);
-
+    updateCircles(Yr,bcgData,bcg,svg,projection,radius);
 }
 
 
-function updateCircles (Yr, data,svg,projection,radius){
-    var modTaxa = svg.select('g')  // select g element
-        .selectAll('circle.modTaxa')  // select all the circles
-        .data(data);
-    modTaxa.exit().remove();
-    modTaxa.enter().append('circle')
-        .attr('class', 'modTaxa')// give each circle a class name
-        .attr('cx', d => {  // feed the long/lat to the projection generator
-            d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
-            return d.position[0];  // position the x
-        })
-        .attr('cy', d => {
-            return d.position[1];  // position the y
-        });
+function updateCircles (Yr,data,bcg,svg,projection,radius){
+        var modTaxa = svg.select('g')  // select g element
+            .selectAll('circle.modTaxa')  // select all the circles
+            .data(data);
+        modTaxa.exit().remove();
+        modTaxa.enter().append('circle')
+            .attr('class', 'modTaxa')// give each circle a class name
+            .attr('cx', d => {  // feed the long/lat to the projection generator
+                d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
+                return d.position[0];  // position the x
+            })
+            .attr('cy', d => {
+                return d.position[1];  // position the y
+            });
 
-    modTaxa.transition()
-        .duration(500)
-        .attr('r', d => {
-            let Year = Yr;
-            const modYr = 'T4Yr' + Year;
-            return radius(+d[modYr]);
-        });//define a proportional radius
+        modTaxa.transition()
+            .duration(500)
+            .attr('r', d => {
+                let Year = Yr;
+                const modYr = 'T4Yr' + Year;
+                return radius(+d[modYr]);
+            })//define a proportional radius
+            .style('display', d=>{
+                if (bcg == 2){
+                    if (d.BCG == '5') return 'none';
+                    if (d.BCG == '2') return 'inline';
+                } else {
+                    if (d.BCG == '2') return 'none';
+                    if (d.BCG == '5') return 'inline';
+                }
+            });
 
-    var tolTaxa = svg.select('g')  // select g element
-        .selectAll('circle.tolTaxa')  // select all the circles
-        .data(data);
-    tolTaxa.exit().remove();
-    tolTaxa.enter().append('circle')
-        .attr('class', 'tolTaxa')// give each circle a class name
-        .attr('cx', d => {  // feed the long/lat to the projection generator
-            d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
-            return d.position[0];  // position the x
-        })
-        .attr('cy', d => {
-            return d.position[1];  // position the y
-        });
+        var senTaxa = svg.select('g')  // select g element
+            .selectAll('circle.senTaxa')  // select all the circles
+            .data(data);
+        senTaxa.exit().remove();
+        senTaxa.enter().append('circle')
+            .attr('class', 'senTaxa')// give each circle a class name
+            .attr('cx', d => {  // feed the long/lat to the projection generator
+                d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
+                return d.position[0];  // position the x
+            })
+            .attr('cy', d => {
+                return d.position[1];  // position the y
+            });
 
-    tolTaxa.transition()
-        .duration(500)
-        .attr('r', d => {
-            let Year = Yr;
-            const tolYr = 'T5Yr' + Year;
-            return radius(+d[tolYr]);
-        });//define a proportional radius
+        senTaxa.transition()
+            .duration(500)
+            .attr('r', d => {
+                let Year = Yr;
+                const tolYr = 'T2Yr' + Year;
+                return radius(+d[tolYr]);
+            })//define a proportional radius
+            .style('display', d=>{
+                if (bcg == 2){
+                    if (d.BCG == '5') return 'none';
+                    if (d.BCG == '2') return 'inline';
+                } else {
+                    if (d.BCG == '2') return 'none';
+                    if (d.BCG == '5') return 'inline';
+                }
+            });
+
+        var tolTaxa = svg.select('g')  // select g element
+            .selectAll('circle.tolTaxa')  // select all the circles
+            .data(data);
+        tolTaxa.exit().remove();
+        tolTaxa.enter().append('circle')
+            .attr('class', 'tolTaxa')// give each circle a class name
+            .attr('cx', d => {  // feed the long/lat to the projection generator
+                d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
+                return d.position[0];  // position the x
+            })
+            .attr('cy', d => {
+                return d.position[1];  // position the y
+            });
+
+        tolTaxa.transition()
+            .duration(500)
+            .attr('r', d => {
+                let Year = Yr;
+                const tolYr = 'T5Yr' + Year;
+                return radius(+d[tolYr]);
+            })//define a proportional radius
+            .style('display', d=>{
+                if (bcg == 2){
+                    if (d.BCG == '5') return 'none';
+                    if (d.BCG == '2') return 'inline';
+                } else {
+                    if (d.BCG == '2') return 'none';
+                    if (d.BCG == '5') return 'inline';
+                }
+
+            });
+
 }
 
 

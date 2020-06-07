@@ -37,20 +37,25 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p><a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/1051-0761%282006%29016%5B1251%3ATBCGAD%5D2.0.CO%3B2">
-                            The Biological Condition Gradient (BCG)</a> is a conceptual model that describes changes
-                            in aquatic communities and provides a more refined way of assigning stream health than the
-                            traditional pass/fail approach. Over the past 10 years, CT DEEP has developed BCG models for
-                            fish communities and macroinvertebrate communities and, starting in 2018, incorporated these
-                            concepts into water quality assessments for the Integrated Water Quality Report.</p>
-                        <p>The BCG provides more information about the condition of streams than our previous assessment
-                            methodology. Historical stream health assessments relied on a pass/fail scale
-                            whereas the current methodology applies a gradient approach using the BCG indices.
-                            The additional fine tuning allows us to identify minimally stressed healthy streams
-                            (e.g. BCG tiers 1 and 2). Rather than waiting for these streams to degrade to the point of
-                            becoming impaired, CT DEEP is now taking steps to protect these healthy watersheds.</p>
-                        <p><a href="https://portal.ct.gov/DEEP/Water/Water-Quality/Water-Quality-305b-Report-to-Congress">
-                            Integrated water quality report</a>
+                        <p>Significant progress has been made to clean up rivers since the passage of the federal water
+                            pollution control act (commonly known as the clean water act) in 1972. However, much of the
+                            focus has been on fixing waste-receiving streams with overt pollution problems which has
+                            left high quality streams vulnerable and open to degradation. In addition, over the past
+                            decade there have been significant cuts to funding and staff for pollution control and
+                            science at both the State and Federal levels (Environmental Integrity Project, 2019) with
+                            further cuts proposed (U.S. Office of Management and Budget, 2020) threatening continued
+                            success of clean water implementation. This map will seek to demonstrate progress made to
+                            date, while at the same time highlighting the need to modernize assessment methods to
+                            protect high quality streams from degradation and continue to augment the success of the
+                            clean water act.</p>
+                        <p>The map focuses on long-term sampling sites in Connecticut non-tidal rivers and streams.
+                            Long-term sites are divided into two groups: historically polluted streams and historic
+                            sentinel streams. Historically polluted streams are those that have been significantly
+                            altered due to anthropogenic input and typically a primary focus for restoration as part
+                            of the Clean Water Act. Historic sentinel streams are those that have been least disturbed
+                            by anthropogenic input.</p>
+                        <p><a href="https://github.com/marybecker/Biointegrity/blob/master/README.md">
+                            More info</a>
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -66,8 +71,17 @@
             <div id="map"></div>
 
             <div id="slider">
-                <input id="timeslide" type="range" min="1" max="6" value="1" step="1"/><br>
+                <input id="timeslide" type="range" min="1" max="6" value="1" step="1" /><br>
                 <span id="range">Time Slider</span>
+            </div>
+
+            <div class="btn-group mt-3 text-white" data-toggle="buttons" id="radBtn">
+                <label class="btn btn-default active text-white">
+                    <input type="radio" name="BCG" class="radioBtn" value="5" checked="">Polluted Streams
+                </label>
+                <label class="btn btn-default text-white">
+                    <input type="radio" name="BCG" class="radioBtn" value="2"> Sentinel Streams
+                </label>
             </div>
 
         </div>
