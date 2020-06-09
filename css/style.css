@@ -89,11 +89,37 @@ a {
     top: 1em;
 }
 
+/* Example of reducing heading font sizes on smaller screens */
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1em;
+}
+
 /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {}
+@media (min-width: 576px) {
+    h1 {
+        font-size: 1.7em;
+    }
+    
+    h2 {
+        font-size: 1.2em;
+    }
+}
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+
+    h1 {
+        font-size: 2em;
+    }
+    
+    h2 {
+        font-size: 1.5em;
+    }
 
     aside {
         height: 80vh;
@@ -101,7 +127,17 @@ a {
 }
 
 /* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {}
+@media (min-width: 992px) {
+
+    h1 {
+        font-size: 2.5em;
+    }
+    
+    h2 {
+        font-size: 1.8em;
+    }
+
+}
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {}
