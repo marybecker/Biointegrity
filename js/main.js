@@ -91,7 +91,7 @@ function drawMap(data) {
         .attr('class', 'riverLine');
 
     // define radius generator
-    const radius = d3.scaleLinear().domain([0, 1]).range([0, 30]);
+    const radius = d3.scaleLinear().domain([0, 1]).range([1, 30]);
     console.log(radius(1));
 
     // Create  div for the tooltip and hide with opacity
@@ -116,6 +116,7 @@ function drawMap(data) {
         let Yr = this.value;
         let bcg = d3.selectAll('input[name="BCG"]:checked').node().value;
         updateCircles(Yr, bcgData, bcg, svg, projection, radius,tooltip)
+        d3.select('#range').text(getYrName(Yr))
 
     });
 
@@ -272,14 +273,44 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
     // applies event listeners to Taxa.  Max radius for each site.
     Taxa.on('mouseover', (d, i, nodes) => { // when mousing over an element
         console.log(d);
-        d3.select(nodes[i]).attr('class', 'hover')// remove to access smaller circles .raise(); // select it, add a class name, and bring to front
-        tooltip.classed('invisible', false).html(`<h4>Hello</h4>`) // make tooltip visible and update info
+        let Year = Yr;
+        let bug = ['T2Yr','T4Yr','T5Yr'];
+        d3.select(nodes[i]).attr('class', 'hover')// select it, add a class name, and bring to front
+        tooltip.classed('invisible', false).html(`<h4>${d.Station_Name} (${d.Municipality_Name})</h4>
+        Percent Relative Abundance
+        Years (${getYrName(Year)})<br>Sensitive Taxa: ${Math.round((d[bug[0]+Yr])*100)} %<br>
+        Moderate Taxa: ${Math.round((d[bug[1]+Yr])*100)} %<br>
+        Tolerant Taxa: Sensitive Taxa: ${Math.round((d[bug[2]+Yr])*100)} %`)
+
+        // make tooltip visible and update info
     })
         .on('mouseout', (d, i, nodes) => { // when mousing out of an element
-            d3.select(nodes[i]).attr('class', 'Taxa') // remove the class from the polygon
+            d3.select(nodes[i]).attr('class', 'Taxa')// remove the class
             tooltip.classed('invisible', true) // hide the element
         });
 
+
+}
+
+function getYrName (Yr){
+    if(Yr==1){
+        return '1989 - 1995'
+    }
+    if(Yr==2){
+        return '1996 - 2000'
+    }
+    if (Yr == 3) {
+        return '2001 - 2005'
+    }
+    if (Yr ==4){
+        return '2006 - 2010'
+    }
+    if (Yr ==5){
+        return '2011 - 2015'
+    }
+    if (Yr == 6){
+        return '2016 - 2017'
+    }
 }
 
 
