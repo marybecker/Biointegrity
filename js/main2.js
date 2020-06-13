@@ -2,7 +2,7 @@
 const townsJson = d3.json('data/CTTowns.json');
 const waterLineJson = d3.json('data/StateWaterbodyLine.json');
 const waterPolyJson = d3.json('data/StateWaterbodyPoly.json');
-const bcgCSV = d3.csv('data/BCG_OverTime.csv');
+const bcgCSV = d3.csv('data/BCG_OverTime2.csv');
 // const bcg5CSV = d3.csv('data/BCG5_Tier4And5_OverTime.csv');
 // const bcg2CSV = d3.csv('data/BCG2_Tier2And4_OverTime.csv');
 
@@ -91,7 +91,7 @@ function drawMap(data) {
         .attr('class', 'riverLine');
 
     // define radius generator
-    const radius = d3.scaleLinear().domain([0, 1]).range([0, 30]);
+    const radius = d3.scaleLinear().domain([0, 1]).range([0, 40]);
     console.log(radius(1));
 
     // Create  div for the tooltip and hide with opacity
@@ -115,7 +115,7 @@ function drawMap(data) {
     d3.select("#timeslide").on("input", function() {
         let Yr = this.value;
         let bcg = d3.selectAll('input[name="BCG"]:checked').node().value;
-        updateCircles(Yr, bcgData, bcg, svg, projection, radius,tooltip)
+        updateCircles(Yr, bcgData, bcg, svg, projection, radius)
 
     });
 
@@ -137,12 +137,34 @@ function drawMap(data) {
 
 function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
 
-        var modTaxa = svg.select('g')  // select g element
-            .selectAll('circle.modTaxa')  // select all the circles
+    function color (metric){
+        if(metric == 'T2'){
+            return '#008837'
+        }
+        if (metric == 'T4'){
+            return '#f9711d'
+        }
+        if (metric == 'T5'){
+            return '#34394b'
+        }
+    }
+
+    function display (bcg,bcgValue){
+        if (bcg == 2){
+            if (bcgValue == '5') return 'none';
+            if (bcgValue == '2') return 'inline';
+        } else {
+            if (bcgValue == '2') return 'none';
+            if (bcgValue == '5') return 'inline';
+        }
+    }
+
+        var Taxa = svg.select('g')  // select g element
+            .selectAll('circle')  // select all the circles
             .data(data);
-        modTaxa.exit().remove();
-        modTaxa.enter().append('circle')
-            .attr('class', 'modTaxa')// give each circle a class name
+        Taxa.exit().remove();
+        Taxa.enter().append('circle')
+            .attr('class', 'Taxa')// give each circle a class name
             .attr('cx', d => {  // feed the long/lat to the projection generator
                 d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
                 return d.position[0];  // position the x
@@ -151,14 +173,16 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
                 return d.position[1];  // position the y
             });
 
-        modTaxa.transition()
+        Taxa.transition()
             .duration(500)
             .attr('r', d => {
                 let Year = Yr;
-                let bug = 'T4Yr';
-                const modYr = bug + Year;
-                return radius(+d[modYr]);
+                const TaxaYr = 'Yr' + Year;
+                return radius(+d[TaxaYr]);
             })//define a proportional radius
+            .style('stroke', d => {
+                return color(d.Metric);
+            })
             .style('display', d=>{
                 if (bcg == 2){
                     if (d.BCG == '5') return 'none';
@@ -170,110 +194,12 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
             });
 
 
-        var senTaxa = svg.select('g')  // select g element
-            .selectAll('circle.senTaxa')  // select all the circles
-            .data(data);
-        senTaxa.exit().remove();
-        senTaxa.enter().append('circle')
-            .attr('class', 'senTaxa')// give each circle a class name
-            .attr('cx', d => {  // feed the long/lat to the projection generator
-                d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
-                return d.position[0];  // position the x
-            })
-            .attr('cy', d => {
-                return d.position[1];  // position the y
-            });
 
-        senTaxa.transition()
-            .duration(500)
-            .attr('r', d => {
-                let Year = Yr;
-                let bug = 'T2Yr';
-                const senYr = bug + Year;
-                return radius(+d[senYr]);
-            })//define a proportional radius
-            .style('display', d=>{
-                if (bcg == 2){
-                    if (d.BCG == '5') return 'none';
-                    if (d.BCG == '2') return 'inline';
-                } else {
-                    if (d.BCG == '2') return 'none';
-                    if (d.BCG == '5') return 'inline';
-                }
-            });
-
-        var tolTaxa = svg.select('g')  // select g element
-            .selectAll('circle.tolTaxa')  // select all the circles
-            .data(data);
-        tolTaxa.exit().remove();
-        tolTaxa.enter().append('circle')
-            .attr('class', 'tolTaxa')// give each circle a class name
-            .attr('cx', d => {  // feed the long/lat to the projection generator
-                d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
-                return d.position[0];  // position the x
-            })
-            .attr('cy', d => {
-                return d.position[1];  // position the y
-            });
-
-        tolTaxa.transition()
-            .duration(500)
-            .attr('r', d => {
-                let Year = Yr;
-                let bug = 'T5Yr';
-                const tolYr = bug + Year;
-                return radius(+d[tolYr]);
-            })//define a proportional radius
-            .style('display', d=>{
-                if (bcg == 2){
-                    if (d.BCG == '5') return 'none';
-                    if (d.BCG == '2') return 'inline';
-                } else {
-                    if (d.BCG == '2') return 'none';
-                    if (d.BCG == '5') return 'inline';
-                }
-
-            });
-
-    var Taxa = svg.select('g')  // select g element
-        .selectAll('circle.Taxa')  // select all the circles
-        .data(data);
-    Taxa.exit().remove();
-    Taxa.enter().append('circle')
-        .attr('class', 'Taxa')// give each circle a class name
-        .attr('cx', d => {  // feed the long/lat to the projection generator
-            d.position = projection([d.XLong, d.YLat]);  // create a new data attribute
-            return d.position[0];  // position the x
-        })
-        .attr('cy', d => {
-            return d.position[1];  // position the y
-        });
-
-    Taxa.transition()
-        .duration(500)
-        .attr('r', d => {
-            let Year = Yr;
-            let bug = 'MaxYr';
-            const maxYr = bug + Year;
-            return radius(+d[maxYr]);
-        })//define a proportional radius
-        .style('display', d=>{
-            if (bcg == 2){
-                if (d.BCG == '5') return 'none';
-                if (d.BCG == '2') return 'inline';
-            } else {
-                if (d.BCG == '2') return 'none';
-                if (d.BCG == '5') return 'inline';
-            }
-
-        });
-
-
-    // applies event listeners to Taxa.  Max radius for each site.
+    // applies event listeners to facilities for user interaction
     Taxa.on('mouseover', (d, i, nodes) => { // when mousing over an element
         console.log(d);
-        d3.select(nodes[i]).attr('class', 'hover')// remove to access smaller circles .raise(); // select it, add a class name, and bring to front
-        tooltip.classed('invisible', false).html(`<h4>Hello</h4>`) // make tooltip visible and update info
+        d3.select(nodes[i]).attr('class', 'hover').raise()// remove to access smaller circles .raise(); // select it, add a class name, and bring to front
+        tooltip.classed('invisible', false).html(`<h4>${d.Station_Name}</h4>`) // make tooltip visible and update info
     })
         .on('mouseout', (d, i, nodes) => { // when mousing out of an element
             d3.select(nodes[i]).attr('class', 'Taxa') // remove the class from the polygon
@@ -283,7 +209,7 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
 }
 
 
-function drawLegend(svg, width, height, radius) {
+function drawLegend(svg, width, height, radius,data) {
 
     const legend = svg.append('g')
         .attr('dy', '1.3em')

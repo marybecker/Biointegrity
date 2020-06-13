@@ -66,14 +66,19 @@ a {
     fill-opacity: 0;
 }
 
+.Taxa {
+    opacity: 0;
+    fill-opacity: 1;
+}
+
 .legend circle {
     fill: none;
-    stroke: #ccc;
+    stroke: #ffffff;
 }
 
 .legend text {
-    fill: #777;
-    font: 10px sans-serif;
+    fill: #ffffff;
+    /*font: 12px sans-serif;*/
     text-anchor: middle;
 }
 
@@ -87,6 +92,11 @@ a {
     position: absolute;
     right: 1em;
     top: 1em;
+}
+
+.hover {
+    stroke-width: 4;
+    fill: #ffffff;
 }
 
 /* Example of reducing heading font sizes on smaller screens */
