@@ -106,20 +106,6 @@ function drawMap(data) {
                 .style('top', (d3.event.pageY - 30) + 'px');
         });
 
-    // set the dimensions and margins of the graph
-    var marginPlot = {top: 10, right: 30, bottom: 30, left: 60},
-        widthPlot = 460 - marginPlot.left - marginPlot.right,
-        heightPlot = 400 - marginPlot.top - marginPlot.bottom;
-
-// append the svg object to the body of the page
-    var svgPlot = d3.select("#plot")
-        .append("svg")
-        .attr("width", widthPlot + marginPlot.left + marginPlot.right)
-        .attr("height", heightPlot + marginPlot.top + marginPlot.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + marginPlot.left + "," + marginPlot.top + ")");
-
     let Yr = d3.select("#timeslide").node().value;
     console.log(Yr);
     let bcg = d3.selectAll('input[name="BCG"]:checked').node().value;
@@ -394,36 +380,3 @@ function drawLegend(svg, width, height, radius) {
 
 }
 
-function linePlot (Yr,data) {
-
-    // Add X axis --> it is a date format
-    var x = d3.scalelinear()
-        .domain([0,6])
-        .range([ 0,6]);
-    svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
-
-    // Add Y axis
-    var y = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) {
-            let Year = Yr;
-            let bug = 'T2Yr';
-            const senYr = bug + Year;
-            return +d[senYr]; })])
-        .range([0,1]);
-    svg.append("g")
-        .call(d3.axisLeft(y));
-
-    // Add the line
-    svg.append("path")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr("d", d3.line()
-            .x(function(d) { return x(d.date) })
-            .y(function(d) { return y(d.value) })
-        )
-
-}

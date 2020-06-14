@@ -28,16 +28,17 @@
 
         <!-- Modal -->
         <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="ModalLabel">BCG Assessments</h5>
+                        <h5 class="modal-title" id="ModalLabel">Biological Assessments in CT</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"></span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Significant progress has been made to clean up rivers since the passage of the federal water
+                        <p>
+                            Significant progress has been made to clean up rivers since the passage of the federal water
                             pollution control act (commonly known as the clean water act) in 1972. However, much of the
                             focus has been on fixing waste-receiving streams with overt pollution problems which has
                             left high quality streams vulnerable and open to degradation. In addition, over the past
@@ -47,15 +48,41 @@
                             success of clean water implementation. This map will seek to demonstrate progress made to
                             date, while at the same time highlighting the need to modernize assessment methods to
                             protect high quality streams from degradation and continue to augment the success of the
-                            clean water act.</p>
-                        <p>The map focuses on long-term sampling sites in Connecticut non-tidal rivers and streams.
+                            clean water act.
+                        </p>
+
+                        <img src="data/WillimanticR_1960sVs2000s.png" class="img-fluid" alt="Willimantic">
+                        <div class="caption">
+                            Williamantic River in Stafford CT the 1960s (left) and 2000s (right).
+                        </div>
+                        <br>
+                        <p>
+                            The map focuses on long-term sampling sites in Connecticut non-tidal rivers and streams.
                             Long-term sites are divided into two groups: historically polluted streams and historic
                             sentinel streams. Historically polluted streams are those that have been significantly
                             altered due to anthropogenic input and typically a primary focus for restoration as part
                             of the Clean Water Act. Historic sentinel streams are those that have been least disturbed
-                            by anthropogenic input.</p>
+                            by anthropogenic input.
+                        </p>
+
+                        <p>
+                            The presence, condition, numbers and types
+                            of fish, insects, algae, plants, and other organisms provide direct, accurate information
+                            about the health of water bodies. Biological assessments measure these factors and are the
+                            primary tool used to evaluate the condition of water bodies. Because biological communities
+                            are affected by all of the stressors to which they are exposed over time, bioassessments
+                            provide information on disturbances not always revealed by water chemistry or other
+                            measurements.
+                        </p>
+
+                        <p>
+                            The map explores changes in biological condition measured using benthic macroinvertebrate
+                            community metrics.  These organisms are very well studied and have a long history of use
+                            as indicators of water quality. The data was collected by the Water Monitoring and
+                            Assessment program at the Connecticut Department of Energy and Environmental Protection.
+                        </p>
                         <p><a href="https://github.com/marybecker/Biointegrity/blob/master/README.md">
-                            More info</a>
+                            Additional information and the data.</a>
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -92,16 +119,30 @@
 
             <!-- Info Modal -->
             <div class="modal fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg text-light" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="InfoModalLabel">Macroinvertebrates as Water Quality Indicators</h5>
-                            <button type="button" class="close" data-dismiss="info" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <div class="modal-body">
-                            <img src="data/Perlidae_CourtesyPeteZaidel.jpg" class="img-fluid" alt="Perlidae">
+                            <p>
+                                Macroinvertebrate community metrics include the relative abundance of sensitive,
+                                moderate and tolerant in a sample collected within the 5 year period.   Tolerant species
+                                are those that can live in highly polluted waters, moderate species can endure a moderate
+                                level of pollution, while sensitive species only occur in waters with little to no pollution.
+                            </p>
+
+                            <p>
+                                Benthic macroinvertebrates are animals without backbones, who inhabit the bottom
+                                of rivers and streams, as well as many other waterbody types. These organisms are
+                                very well studied and have a long history of use as indicators of water quality.
+                                Certain types, including mayflies, stoneflies, and caddisflies, can survive only in
+                                the cleanest water quality conditions. Other major groups of macroinvertebrates
+                                are true flies, beetles, worms, crustaceans, and dragonflies.
+                            </p>
+                                <img src="data/Perlidae_CourtesyPeteZaidel.jpg" class="img-fluid" alt="Perlidae">
+                            <div class="caption">Perlidae (Common Name: Stonefly).  Photo courtesy Peter Zaidel</div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -125,7 +166,7 @@
 </div>
 
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS, then leaflet, then simple statistics then your JS! -->
+<!-- Load JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
