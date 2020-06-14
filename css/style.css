@@ -46,7 +46,7 @@ a {
 }
 
 .tolTaxa {
-    stroke: #34394b;
+    stroke: #B39DDB;
     stroke-width: 3;
     opacity: 1;
     fill-opacity: 0;
@@ -71,32 +71,43 @@ a {
     fill-opacity: 1;
 }
 
+
 .legend circle {
     fill: none;
+    stroke-width: 3;
     stroke: #ffffff;
 }
 
 .legend text {
     fill: #ffffff;
-    /*font: 12px sans-serif;*/
+    font: 14px sans-serif;
+}
+
+.circle-text{
     text-anchor: middle;
 }
 
 #slider {
     position: absolute;
     left: 1em;
-    bottom: 1em;
+    top: 10em;
 }
 
 #radBtn {
     position: absolute;
-    right: 1em;
+    left: 1em;
     top: 1em;
+}
+
+#info {
+    position: absolute;
+    right: 1em;
+    bottom: 10em;
 }
 
 .hover {
     stroke-width: 4;
-    fill: #ffffff;
+    fill: #66FCF1;
 }
 
 /* Example of reducing heading font sizes on smaller screens */

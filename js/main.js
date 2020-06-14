@@ -91,12 +91,12 @@ function drawMap(data) {
         .attr('class', 'riverLine');
 
     // define radius generator
-    const radius = d3.scaleLinear().domain([0, 1]).range([1, 30]);
+    const radius = d3.scaleLinear().domain([0, 1]).range([1, 40]);
     console.log(radius(1));
 
     // Create  div for the tooltip and hide with opacity
     const tooltip = d3.select('.container-fluid').append('div')
-        .attr('class', 'my-tooltip bg-secondary text-white py-1 px-2 rounded position-absolute invisible');
+        .attr('class', 'my-tooltip bg-light text-dark py-1 px-2 rounded position-absolute invisible');
 
     // when mouse moves over the mapContainer
     mapContainer
@@ -105,6 +105,20 @@ function drawMap(data) {
             tooltip.style('left', (d3.event.pageX + 10) + 'px')
                 .style('top', (d3.event.pageY - 30) + 'px');
         });
+
+    // set the dimensions and margins of the graph
+    var marginPlot = {top: 10, right: 30, bottom: 30, left: 60},
+        widthPlot = 460 - marginPlot.left - marginPlot.right,
+        heightPlot = 400 - marginPlot.top - marginPlot.bottom;
+
+// append the svg object to the body of the page
+    var svgPlot = d3.select("#plot")
+        .append("svg")
+        .attr("width", widthPlot + marginPlot.left + marginPlot.right)
+        .attr("height", heightPlot + marginPlot.top + marginPlot.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + marginPlot.left + "," + marginPlot.top + ")");
 
     let Yr = d3.select("#timeslide").node().value;
     console.log(Yr);
@@ -126,7 +140,6 @@ function drawMap(data) {
         updateCircles(Yr, bcgData, bcg, svg, projection, radius,tooltip)
 
     });
-
 
 
     drawLegend(svg, width, height, radius);
@@ -278,9 +291,10 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
         d3.select(nodes[i]).attr('class', 'hover')// select it, add a class name, and bring to front
         tooltip.classed('invisible', false).html(`<h4>${d.Station_Name} (${d.Municipality_Name})</h4>
         Percent Relative Abundance
-        Years (${getYrName(Year)})<br>Sensitive Taxa: ${Math.round((d[bug[0]+Yr])*100)} %<br>
-        Moderate Taxa: ${Math.round((d[bug[1]+Yr])*100)} %<br>
-        Tolerant Taxa: Sensitive Taxa: ${Math.round((d[bug[2]+Yr])*100)} %`)
+        Years (${getYrName(Year)})<br>
+        <span style="color:#008837">Sensitive Taxa:</span> ${Math.round((d[bug[0]+Yr])*100)} %<br>
+        <span style="color:#f9711d">Moderate Taxa:</span> ${Math.round((d[bug[1]+Yr])*100)} %<br>
+        <span style="color:#B39DDB">Tolerant Taxa:</span> ${Math.round((d[bug[2]+Yr])*100)} %`)
 
         // make tooltip visible and update info
     })
@@ -319,9 +333,9 @@ function drawLegend(svg, width, height, radius) {
     const legend = svg.append('g')
         .attr('dy', '1.3em')
         .attr('class', 'legend')
-        .attr('transform', 'translate(' + (width - 40) + ',' + (height - 20) + ')')
+        .attr('transform', 'translate(' + (width - 60) + ',' + (height - 20) + ')')
         .selectAll('g')
-        .data([0,1])
+        .data([0.5,1])
         .join('g');
 
     legend.append('circle')
@@ -332,12 +346,84 @@ function drawLegend(svg, width, height, radius) {
 
     legend.append('text')
         .attr('y', d => {
-            return radius(d);
+            return -2* radius(d);
         })
         .attr('dy', '1.5em')
-        .text(d3.format('.1s'));
+        .attr('class','circle-text')
+        .text(d3.format('.0%'));
 
     legend.append('text')
-        .attr('y', 16)
-        .text('relative abundance');
+        .attr('y', -90)
+        .attr('x', -225)
+        .text("Percent relative abundance of")
+        .style('alignment-baseline','hanging');
+
+    legend.append('text')
+        .attr('y', -70)
+        .attr('x', -225)
+        .text("sensitive,")
+        .style('fill', '#008837')
+        .style('alignment-baseline','middle');
+
+    legend.append('text')
+        .attr('y', -70)
+        .attr('x', -150)
+        .text("moderate,")
+        .style('fill', '#f9711d')
+        .style('alignment-baseline','middle');
+
+    legend.append('text')
+        .attr('y', -70)
+        .attr('x', -70)
+        .text("and")
+        .style('alignment-baseline','middle');
+
+
+    legend.append('text')
+        .attr('y', -50)
+        .attr('x', -225)
+        .text("tolerant")
+        .style('fill', '#B39DDB')
+        .style('alignment-baseline','baseline');
+
+    legend.append('text')
+        .attr('y', -50)
+        .attr('x', -150)
+        .text("species")
+        .style('alignment-baseline','baseline');
+
+}
+
+function linePlot (Yr,data) {
+
+    // Add X axis --> it is a date format
+    var x = d3.scalelinear()
+        .domain([0,6])
+        .range([ 0,6]);
+    svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    // Add Y axis
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) {
+            let Year = Yr;
+            let bug = 'T2Yr';
+            const senYr = bug + Year;
+            return +d[senYr]; })])
+        .range([0,1]);
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+    // Add the line
+    svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return x(d.date) })
+            .y(function(d) { return y(d.value) })
+        )
+
 }
