@@ -7,7 +7,7 @@
 
  *What?* The map will explore changes in biological condition as measured by the benthic macroinvertebrate community at long-term sampling sites in Connecticut.  Benthic macroinvertebrates are animals without backbones, who inhabit the bottom of rivers and streams, as well as many other waterbody types. These organisms are very well studied and have a long history of use as indicators of water quality. Certain types, including mayflies, stoneflies, and caddisflies, can survive only in the cleanest water quality conditions. Other major groups of macroinvertebrates are true flies, beetles, worms, crustaceans, and dragonflies.  Tolerant species are those that can live in highly polluted waters, moderate species can endure a moderate level of pollution, while sensitive species only occur in waters with little to no pollution.  Macroinvertebrate community data will be summarized into metrics that describe the biological condition of the stream.
 
-![Perlidae](finalPrjData/Perlidae_CourtesyPeteZaidel.jpg)
+![Perlidae](data/Perlidae_CourtesyPeteZaidel.jpg)
 
 Changes will be explored in 5 year increments.  Long-term sampling sites are defined as sites that were typically sampled at least once every five years over the period of record (1987 - 2017).  Sites will be excluded from the dataset if a sample was not available in more than one five year period.  Only samples collected with the same sampling methodology (kick-net 2m2) will be used for the analysis.
  
@@ -33,17 +33,17 @@ Changes will be explored in 5 year increments.  Long-term sampling sites are def
 The relative abundance (proportion of sample 0 - 1) of tolerant, moderate and sensitive taxa will be displayed using proportional circle symbols on the map (See examples below).
 
  ### 1989 - 1995 Biological Condition in Waste Receiving Streams
- ![1989 - 1995](finalPrjData/1989_1995.jpeg)
+ ![1989 - 1995](data/1989_1995.jpeg)
  
  ### 2016 - 2017 Biological Condition in Waste Receiving Streams
- ![2016 - 2017](finalPrjData/2016_2017.jpeg)
+ ![2016 - 2017](data/2016_2017.jpeg)
 
 ## Anticipated User Interface
 
 The user interface will be a single-paged map.  Users will be able to view changes in the biological condition over time by interacting with a time slider to sequence through 5 year timestamps that display the relative abundance of sensitive, moderate and tolerant species at each point in time.  Users will also be able to resymbolize by toggling between historically polluted streams and historic sentinel streams to highlight the differences in changes that have occurred in each type of stream as a result of clean water act implementation to date.  Users will be able to hover over each site to get name and description of sites and potentially a line or bar chart showing the relative abundance of each species group (sensitive, moderate & tolerant) over the entire period of record.
 
  ### Mockup Revised ###
-![Mockup](finalPrjData/mockup.JPG)
+![Mockup](data/mockup.JPG)
 
 ## Technology Stack /  Workflow
 
