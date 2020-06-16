@@ -380,3 +380,18 @@ function drawLegend(svg, width, height, radius) {
 
 }
 
+
+// When the browser resizes...
+window.addEventListener('resize', () => {
+
+    // remove existing SVG
+    d3.selectAll("svg > *").remove();
+
+    // use promise to call all data files, then send data to callback
+    Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
+    .then(drawMap)
+    .catch(error => {
+        console.log(error)
+    });
+});
+
