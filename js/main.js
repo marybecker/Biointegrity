@@ -96,7 +96,8 @@ function drawMap(data) {
 
     // Create  div for the tooltip and hide with opacity
     const tooltip = d3.select('.container-fluid').append('div')
-        .attr('class', 'my-tooltip bg-light text-dark py-1 px-2 rounded position-absolute invisible');
+        .attr('class', 'my-tooltip bg-light text-dark py-1 px-2 rounded position-absolute invisible')
+        .attr('id','plotContainer');
 
     // when mouse moves over the mapContainer
     mapContainer
