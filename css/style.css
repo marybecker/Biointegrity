@@ -39,7 +39,7 @@ a {
     fill: #66FCF1;
     stroke: #66FCF1;
     stroke-width: .7;
-    opacity: 0.8;
+    opacity: 0.5;
 }
 
 .riverLine {
@@ -101,6 +101,12 @@ a {
     position: absolute;
     left: 1em;
     top: 1em;
+}
+
+#plotContainer {
+    position: absolute;
+    left: 1em;
+    top: 20em;
 }
 
 #info {
@@ -165,4 +171,8 @@ h2 {
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+    body {
+        overflow: hidden;
+    }
+}

@@ -13,6 +13,9 @@ Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
         console.log(error)
     });
 
+//d3.json({
+// d3.json({..
+
 // function called when Promise above is complete
 function drawMap(data) {
     console.log(data);  // our two datasets within an array
@@ -40,7 +43,7 @@ function drawMap(data) {
         .attr('height', height)
         .classed('position-absolute', true) // add bootstrap class
         .style('top', '40px')
-        .style('left', '30px');
+        .style('left', '80px');
 
     //convert the TopoJSONs to GeoJSON to draw
     const towngeojson = topojson.feature(townsData, {
@@ -97,7 +100,13 @@ function drawMap(data) {
     // Create  div for the tooltip and hide with opacity
     const tooltip = d3.select('.container-fluid').append('div')
         .attr('class', 'my-tooltip bg-light text-dark py-1 px-2 rounded position-absolute invisible')
-        .attr('id','plotContainer');
+        .attr('id','tooltipContainer');
+
+    /*var plot = d3.select("#plotContainer")
+        .append("div")
+        .style("position", "absolute")
+        .style("left","1em")
+        .style("top","20em");*/
 
     // when mouse moves over the mapContainer
     mapContainer
@@ -132,9 +141,6 @@ function drawMap(data) {
     drawLegend(svg, width, height, radius);
     updateCircles(Yr,bcgData,bcg,svg,projection,radius,tooltip);
 }
-
-
-
 
 function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
 
@@ -272,23 +278,37 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
 
     // applies event listeners to Taxa.  Max radius for each site.
     Taxa.on('mouseover', (d, i, nodes) => { // when mousing over an element
-        console.log(d);
         let Year = Yr;
         let bug = ['T2Yr','T4Yr','T5Yr'];
         d3.select(nodes[i]).attr('class', 'hover')// select it, add a class name, and bring to front
-        tooltip.classed('invisible', false).html(`<h4>${d.Station_Name} (${d.Municipality_Name})</h4>
-        Percent Relative Abundance
-        Years (${getYrName(Year)})<br>
-        <span style="color:#008837">Sensitive Taxa:</span> ${Math.round((d[bug[0]+Yr])*100)} %<br>
-        <span style="color:#f9711d">Moderate Taxa:</span> ${Math.round((d[bug[1]+Yr])*100)} %<br>
-        <span style="color:#B39DDB">Tolerant Taxa:</span> ${Math.round((d[bug[2]+Yr])*100)} %`)
+        tooltip.classed('invisible', false)
+                .html(`<div>
+                    <h4>${d.Station_Name} (${d.Municipality_Name})</h4>
+                    Percent Relative Abundance
+                    Years (${getYrName(Year)})<br>
+                    <span style="color:#008837">Sensitive Taxa:</span> ${Math.round((d[bug[0]+Yr])*100)} %<br>
+                    <span style="color:#f9711d">Moderate Taxa:</span> ${Math.round((d[bug[1]+Yr])*100)} %<br>
+                    <span style="color:#B39DDB">Tolerant Taxa:</span> ${Math.round((d[bug[2]+Yr])*100)} %<br>
+                    <span style="color:#636363">Other Taxa:</span> ${Math.round(100-(Number(d[bug[0]+Yr])
+                    +Number(d[bug[1]+Yr])+ Number(d[bug[2]+Yr]))*100)} %<br>
+                    </div>`)
+        //now you can do d3.select('#plotContainer').append('g')
+        //data //use if you want
+
+
+        drawPlot(d,'#plotContainer')
+
+
 
         // make tooltip visible and update info
     })
         .on('mouseout', (d, i, nodes) => { // when mousing out of an element
             d3.select(nodes[i]).attr('class', 'Taxa')// remove the class
-            tooltip.classed('invisible', true) // hide the element
+            tooltip.classed('invisible', true)// hide the element
+            d3.select('#plotContainer').html('');
+
         });
+
 
 
 }
@@ -381,12 +401,178 @@ function drawLegend(svg, width, height, radius) {
 
 }
 
+function drawPlot(data,id) {
 
-// When the browser resizes...
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 500 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select(id)
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    var yearIndex = [1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6];
+    // var xdata = ["1990", "1995", "2000", "2005","2010","2015","1990", "1995", "2000", "2005","2010","2015",
+    //             "1990", "1995", "2000", "2005","2010","2015"];
+    console.log(yearIndex);
+    var RA = [data.T5Yr1,data.T5Yr2,data.T5Yr3,data.T5Yr4,data.T5Yr5,data.T5Yr6,
+        data.T4Yr1,data.T4Yr2,data.T4Yr3,data.T4Yr4,data.T4Yr5,data.T4Yr6,
+        data.T2Yr1,data.T2Yr2,data.T2Yr3,data.T2Yr4,data.T2Yr5,data.T2Yr6];
+    console.log(RA);
+    var cat = ["Tol","Tol","Tol","Tol","Tol","Tol","Mod","Mod","Mod","Mod","Mod","Mod","Sen","Sen","Sen",
+        "Sen","Sen","Sen"];
+
+    var xy = [];
+    for(var i=0;i<yearIndex.length;i++){
+        xy.push({x:yearIndex[i],y:RA[i],z:cat[i]});
+    }
+
+    var clean_xy = [];
+    var dirty_xy = [];
+    for(var i=0; i<xy.length; i++) {
+        if (xy[i].x != 'null' && xy[i].y != 'null') {
+            clean_xy.push(xy[i]);
+        } else {
+            dirty_xy.push(xy[i]);
+        }
+    }
+    console.log(xy);
+    console.log(clean_xy);
+    console.log(dirty_xy);
+
+    var Tol = [];
+    var Mod = [];
+    var Sen = [];
+    for(var i=0; i<clean_xy.length; i++){
+        if (clean_xy[i].z == 'Tol'){
+            Tol.push(clean_xy[i]);
+        }
+        if(clean_xy[i].z == 'Mod'){
+            Mod.push(clean_xy[i]);
+        }
+        if(clean_xy[i].z == 'Sen'){
+            Sen.push(clean_xy[i]);
+        }
+    }
+    console.log(Tol);
+    console.log(Mod);
+    console.log(Sen);
+
+    var xscale = d3.scaleOrdinal()
+        .domain([0,1,2,3,4,5,6])
+        .range([0,1*width/6,2*width/6,3*width/6,4*width/6,5*width/6,width]);
+
+    var xAxis = d3.axisBottom(xscale)
+        .tickValues(["","1989 - 1995", "1996-2000", "2001-2005", "2006-2010","2011-2015","2016-2017"]);
+    svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add Y axis
+    var yscale = d3.scaleLinear()
+        .domain([0, 100])
+        .range([ height, 0 ]);
+    svg.append("g")
+        .call(d3.axisLeft(yscale));
+
+    // Add the line
+    svg.append("path")
+        .datum(Tol)
+        .attr("fill", "none")
+        .attr("stroke", "#B39DDB")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return xscale(d.x) })
+            .y(function(d) { return yscale(d.y*100) })
+        );
+
+    svg.append("path")
+        .datum(Mod)
+        .attr("fill", "none")
+        .attr("stroke", "#f9711d")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return xscale(d.x) })
+            .y(function(d) { return yscale(d.y*100) })
+        );
+
+    svg.append("path")
+        .datum(Sen)
+        .attr("fill", "none")
+        .attr("stroke", "#008837")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return xscale(d.x) })
+            .y(function(d) { return yscale(d.y*100) })
+        );
+
+
+    // Add the points
+    svg.append("g")
+        .selectAll("dot")
+        .data(Tol)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) { return xscale(d.x) } )
+        .attr("cy", function(d) { return yscale(d.y*100) } )
+        .attr("r", 5)
+        .attr("fill", "#B39DDB");
+    /*.filter(function(d) {
+        return d.y == 'null';
+    })
+        .remove();*/
+    // Add the points
+    svg.append("g")
+        .selectAll("dot")
+        .data(Mod)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) { return xscale(d.x) } )
+        .attr("cy", function(d) { return yscale(d.y*100) } )
+        .attr("r", 5)
+        .attr("fill", "#f9711d");
+    // Add the points
+    svg.append("g")
+        .selectAll("dot")
+        .data(Sen)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) { return xscale(d.x) } )
+        .attr("cy", function(d) { return yscale(d.y*100) } )
+        .attr("r", 5)
+        .attr("fill", "#008837");
+
+    // text label for the x axis
+    svg.append("text")
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 30) + ")")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+    // text label for the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Percent Relative Abundance");
+}
+
+/*// When the browser resizes...
 window.addEventListener('resize', () => {
 
     // remove existing SVG
     d3.selectAll("svg > *").remove();
+
+    // point at which drawMap starts building DOM nodes
+    // you can delete everything from
+    d3.select('#map').html = '';
 
     // use promise to call all data files, then send data to callback
     Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
@@ -394,5 +580,7 @@ window.addEventListener('resize', () => {
     .catch(error => {
         console.log(error)
     });
-});
+});*/
+
+
 
