@@ -66,5 +66,5 @@ Gerritsen J, Jessup B. 2007. Calibration of the biological condition gradient fo
 U.S. Office of Management and Budget. 2020.  [Budget Report Fiscal Year 2021.](https://www.whitehouse.gov/wp-content/uploads/2020/02/budget_fy21.pdf) Accessed May 31, 2020.
 
 
-*Additional Mapping Projects on CT Water Quality can be found at https://marybecker.github.io/*
+#### *Additional Mapping Projects on CT Water Quality can be found at* https://marybecker.github.io/
 
