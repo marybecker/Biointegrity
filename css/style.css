@@ -103,6 +103,10 @@ a {
     top: 1em;
 }
 
+.radioBtn {
+    margin-bottom: 1em;
+}
+
 #plotContainer {
     position: absolute;
     left: 1em;

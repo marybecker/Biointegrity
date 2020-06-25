@@ -295,8 +295,10 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
         //now you can do d3.select('#plotContainer').append('g')
         //data //use if you want
 
+        if ($(window).width() > 1400){
+            drawPlot(d,'#plotContainer')
+        }
 
-        drawPlot(d,'#plotContainer')
 
 
 
@@ -404,9 +406,9 @@ function drawLegend(svg, width, height, radius) {
 function drawPlot(data,id) {
 
     // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 50, left: 60},
+    var margin = {top: 30, right: 30, bottom: 50, left: 60},
         width = 500 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 300 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select(id)
@@ -550,8 +552,9 @@ function drawPlot(data,id) {
 
     // text label for the x axis
     svg.append("text")
-        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 30) + ")")
+        .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
         .style("text-anchor", "middle")
+        .style("fill","#ffffff")
         .text("Year");
 
     // text label for the y axis
@@ -561,10 +564,19 @@ function drawPlot(data,id) {
         .attr("x",0 - (height / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
+        .style("fill","#ffffff")
         .text("Percent Relative Abundance");
+
+    svg.append("text")
+        .attr("x", (width / 2))
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("fill","#ffffff")
+        .text(data.Station_Name);
 }
 
-/*// When the browser resizes...
+// When the browser resizes...
 window.addEventListener('resize', () => {
 
     // remove existing SVG
@@ -572,7 +584,7 @@ window.addEventListener('resize', () => {
 
     // point at which drawMap starts building DOM nodes
     // you can delete everything from
-    d3.select('#map').html = '';
+    //d3.select('#map').html = '';
 
     // use promise to call all data files, then send data to callback
     Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
@@ -580,7 +592,7 @@ window.addEventListener('resize', () => {
     .catch(error => {
         console.log(error)
     });
-});*/
+});
 
 
 
