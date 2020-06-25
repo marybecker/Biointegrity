@@ -296,7 +296,7 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
         //data //use if you want
 
         if ($(window).width() > 1400){
-            drawPlot(d,'#plotContainer')
+            drawPlot(d,Year,'#plotContainer')
         }
 
 
@@ -403,7 +403,7 @@ function drawLegend(svg, width, height, radius) {
 
 }
 
-function drawPlot(data,id) {
+function drawPlot(data,Yr,id) {
 
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 30, bottom: 50, left: 60},
@@ -482,6 +482,15 @@ function drawPlot(data,id) {
         .range([ height, 0 ]);
     svg.append("g")
         .call(d3.axisLeft(yscale));
+
+    svg.append("line")
+        .attr("x1", Yr*width/6)  //<<== change your code here
+        .attr("y1", 0)
+        .attr("x2", Yr*width/6)  //<<== and here
+        .attr("y2", height)
+        .style("stroke-width", 1)
+        .style("stroke", "#66FCF1")
+        .style("fill", "none");
 
     // Add the line
     svg.append("path")
