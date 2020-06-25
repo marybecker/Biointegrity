@@ -3,8 +3,7 @@ const townsJson = d3.json('data/CTTowns.json');
 const waterLineJson = d3.json('data/StateWaterbodyLine.json');
 const waterPolyJson = d3.json('data/StateWaterbodyPoly.json');
 const bcgCSV = d3.csv('data/BCG_OverTime.csv');
-// const bcg5CSV = d3.csv('data/BCG5_Tier4And5_OverTime.csv');
-// const bcg2CSV = d3.csv('data/BCG2_Tier2And4_OverTime.csv');
+
 
 // use promise to call all data files, then send data to callback
 Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
@@ -12,9 +11,6 @@ Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
     .catch(error => {
         console.log(error)
     });
-
-//d3.json({
-// d3.json({..
 
 // function called when Promise above is complete
 function drawMap(data) {
@@ -26,8 +22,6 @@ function drawMap(data) {
     const waterPolyData = data[1];
     const waterLineData = data[2];
     const bcgData = data[3];
-    // const bcg5Data = data[3];
-    // const bcg2Data = data[4];
 
     // select the HTML element that will hold the map
     var mapContainer = d3.select('#map');
@@ -102,11 +96,6 @@ function drawMap(data) {
         .attr('class', 'my-tooltip bg-light text-dark py-1 px-2 rounded position-absolute invisible')
         .attr('id','tooltipContainer');
 
-    /*var plot = d3.select("#plotContainer")
-        .append("div")
-        .style("position", "absolute")
-        .style("left","1em")
-        .style("top","20em");*/
 
     // when mouse moves over the mapContainer
     mapContainer
@@ -300,8 +289,6 @@ function updateCircles (Yr,data,bcg,svg,projection,radius,tooltip){
         }
 
 
-
-
         // make tooltip visible and update info
     })
         .on('mouseout', (d, i, nodes) => { // when mousing out of an element
@@ -420,9 +407,7 @@ function drawPlot(data,Yr,id) {
             "translate(" + margin.left + "," + margin.top + ")");
 
     var yearIndex = [1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6];
-    // var xdata = ["1990", "1995", "2000", "2005","2010","2015","1990", "1995", "2000", "2005","2010","2015",
-    //             "1990", "1995", "2000", "2005","2010","2015"];
-    console.log(yearIndex);
+
     var RA = [data.T5Yr1,data.T5Yr2,data.T5Yr3,data.T5Yr4,data.T5Yr5,data.T5Yr6,
         data.T4Yr1,data.T4Yr2,data.T4Yr3,data.T4Yr4,data.T4Yr5,data.T4Yr6,
         data.T2Yr1,data.T2Yr2,data.T2Yr3,data.T2Yr4,data.T2Yr5,data.T2Yr6];
@@ -484,9 +469,9 @@ function drawPlot(data,Yr,id) {
         .call(d3.axisLeft(yscale));
 
     svg.append("line")
-        .attr("x1", Yr*width/6)  //<<== change your code here
+        .attr("x1", Yr*width/6)
         .attr("y1", 0)
-        .attr("x2", Yr*width/6)  //<<== and here
+        .attr("x2", Yr*width/6)
         .attr("y2", height)
         .style("stroke-width", 1)
         .style("stroke", "#66FCF1")
@@ -534,10 +519,7 @@ function drawPlot(data,Yr,id) {
         .attr("cy", function(d) { return yscale(d.y*100) } )
         .attr("r", 5)
         .attr("fill", "#B39DDB");
-    /*.filter(function(d) {
-        return d.y == 'null';
-    })
-        .remove();*/
+
     // Add the points
     svg.append("g")
         .selectAll("dot")
@@ -590,10 +572,6 @@ window.addEventListener('resize', () => {
 
     // remove existing SVG
     d3.selectAll("svg > *").remove();
-
-    // point at which drawMap starts building DOM nodes
-    // you can delete everything from
-    //d3.select('#map').html = '';
 
     // use promise to call all data files, then send data to callback
     Promise.all([townsJson, waterPolyJson, waterLineJson, bcgCSV])
