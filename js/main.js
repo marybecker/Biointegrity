@@ -2,7 +2,7 @@
 const townsJson = d3.json('data/CTTowns.json');
 const waterLineJson = d3.json('data/StateWaterbodyLine.json');
 const waterPolyJson = d3.json('data/StateWaterbodyPoly.json');
-const bcgCSV = d3.csv('data/BCG_OverTime.csv');
+const bcgCSV = d3.csv('data/BCG_OverTime_021421.csv');
 
 
 // use promise to call all data files, then send data to callback
@@ -319,7 +319,7 @@ function getYrName (Yr){
         return '2011 - 2015'
     }
     if (Yr == 6){
-        return '2016 - 2017'
+        return '2016 - 2019'
     }
 }
 
@@ -456,7 +456,7 @@ function drawPlot(data,Yr,id) {
         .range([0,1*width/6,2*width/6,3*width/6,4*width/6,5*width/6,width]);
 
     var xAxis = d3.axisBottom(xscale)
-        .tickValues(["","1989 - 1995", "1996-2000", "2001-2005", "2006-2010","2011-2015","2016-2017"]);
+        .tickValues(["","1989 - 1995", "1996-2000", "2001-2005", "2006-2010","2011-2015","2016-2019"]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
